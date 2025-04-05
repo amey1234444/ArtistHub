@@ -1,0 +1,10 @@
+{
+  "/sign-in/page": "app/sign-in/page.js",
+  "/artist-requests/page": "app/artist-requests/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/jobs/page": "app/jobs/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/api/auth/validate/route": "app/api/auth/validate/route.js",
+  "/api/artists/route": "app/api/artists/route.js",
+  "/api/requests/route": "app/api/requests/route.js"
+}
