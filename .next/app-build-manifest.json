@@ -16,6 +16,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/sign-in/page.js"
     ],
+    "/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/page.js"
+    ],
+    "/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/layout.js"
+    ],
     "/artist-requests/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -31,10 +41,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/jobs/page.js"
     ],
-    "/dashboard/page": [
+    "/jobs/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/jobs/[id]/page.js"
     ]
   }
 }

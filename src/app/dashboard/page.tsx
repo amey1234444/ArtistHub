@@ -27,6 +27,7 @@ interface Request {
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   artistId: Artist;
   managerId: User;
+  paymentStatus?: 'PAID' | 'UNPAID';
 }
 
 interface RequestFormData {
@@ -56,23 +57,21 @@ export default function DashboardPage() {
   });
   const router = useRouter();
 
-  // Add these functions here, before useEffect
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
   const filteredArtists = artists.filter(artist => {
-    // First apply search filter
+   
     const matchesSearch = artist.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       artist.email.toLowerCase().includes(searchQuery.toLowerCase());
-  
-    // Check if artist already has a request
+
     const hasExistingRequest = requests.some(request => 
       request.artistId._id === artist._id && 
       (request.status === 'PENDING' || request.status === 'ACCEPTED')
     );
   
-    // Return true only if matches search and has no existing request
+    
     return matchesSearch && !hasExistingRequest;
   });
 
@@ -155,6 +154,106 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to send request');
+    }
+  };
+
+  const handlePayment = async (requestId: string, managerId: string, artistId: string) => {
+    try {
+      const response = await fetch('/api/payment/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ requestId, managerId, artistId }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to process payment');
+      }
+
+      const data = await response.json();
+      console.log(data, "this is data");
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'ArtistHub',
+        description: 'Payment for Artist Booking',
+        order_id: data.orderId,
+        handler: async function (response: any) {
+          try {
+            const verifyResponse = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                requestId: requestId,
+                amount: data.amount,
+                managerId: managerId,
+                artistId: artistId,
+                status: 'PAID'
+              }),
+            });
+
+            let verificationResult;
+            try {
+              verificationResult = await verifyResponse.json();
+            } catch (error) {
+              console.error('Error parsing verification response:', error);
+              alert('Payment verification failed. Please try again.');
+              throw new Error('Invalid response from payment verification');
+            }
+
+            if (!verifyResponse.ok || !verificationResult.success) {
+              const errorMessage = verificationResult?.error || verificationResult?.message || 'Payment verification failed';
+              console.error('Payment verification failed:', errorMessage);
+              alert('Payment verification failed: ' + errorMessage);
+              throw new Error(errorMessage);
+            }
+
+            // Update local state with the new payment status
+            const updatedRequests = requests.map(req => {
+              if (req._id === requestId) {
+                return { ...req, paymentStatus: 'PAID', status: 'ACCEPTED' };
+              }
+              return req;
+            });
+            setRequests(updatedRequests);
+            
+            
+            alert('Payment successful! Your booking has been confirmed.');
+
+            alert('Payment successful!');
+            
+            // Refresh requests list
+            const requestsRes = await fetch('/api/requests?role=manager', { credentials: 'include' });
+            const requestsData = await requestsRes.json();
+            setRequests(requestsData);
+          } catch (error) {
+            console.error('Payment verification failed:', error);
+            alert('Payment verification failed. Please try again.');
+          }
+        },
+        prefill: {
+          name: user?.fullName || '',
+          email: user?.email || '',
+        },
+        theme: {
+          color: '#0066FF',
+        },
+      };
+      console.log(options, "this are options ");
+      const razorpay = new (window as any).Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Error:', error);
+      alert(error instanceof Error ? error.message : 'Failed to process payment');
     }
   };
 
@@ -247,7 +346,23 @@ export default function DashboardPage() {
                       <p><span className="font-medium">Event:</span> {request.eventName}</p>
                       <p><span className="font-medium">Date:</span> {new Date(request.eventDate).toLocaleDateString()}</p>
                       <p><span className="font-medium">Location:</span> {request.location}</p>
+                      <p><span className="font-medium">Amount:</span> ${request.amount}</p>
                       <p><span className="font-medium">Details:</span> {request.details}</p>
+                      {request.status === 'ACCEPTED' && (
+                        <div className="mt-2">
+                          <span className={`px-3 py-1 rounded-full text-sm ${request.paymentStatus === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
+                            {request.paymentStatus}
+                          </span>
+                          {(!request.paymentStatus || request.paymentStatus === 'UNPAID') && (
+                            <button
+                              onClick={() => handlePayment(request._id,request.managerId._id,request.artistId._id)}
+                              className="ml-2 px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600"
+                            >
+                              Pay Now
+                            </button>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

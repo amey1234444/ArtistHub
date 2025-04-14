@@ -62,13 +62,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate UPI ID format
-    const upiIdRegex = /^[\w.-]+@[\w.-]+$/;
-    if (!upiIdRegex.test(upiId)) {
-      return NextResponse.json(
-        { error: 'Invalid UPI ID format' },
-        { status: 400 }
-      );
-    }
+    // const upiIdRegex = /^[\w.-]+@[\w.-]+$/;
+    // if (!upiIdRegex.test(upiId)) {
+    //   return NextResponse.json(
+    //     { error: 'Invalid UPI ID format' },
+    //     { status: 400 }
+    //   );
+    // }
 
     const paymentInfo = await PaymentInfo.findOneAndUpdate(
       { userId: decoded.userId },
