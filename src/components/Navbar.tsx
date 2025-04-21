@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePathname } from 'next/navigation';
 import UpiPaymentForm from '@/components/UpiPaymentForm';
+import { motion } from "framer-motion";
 
 const ArtistSearch = () => {
   const [open, setOpen] = useState(false);
@@ -25,12 +26,17 @@ const ArtistSearch = () => {
   };
 
   return (
-    <div className="relative">
-      <Command className="rounded-lg border shadow-md">
-        <div className="flex items-center border-b px-3">
-          <Search className="h-4 w-4 shrink-0 opacity-50" />
+    <motion.div
+      className="relative w-full max-w-md"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <Command className="rounded-lg border shadow-md transition-all duration-200 hover:shadow-lg">
+        <div className="flex items-center border-b px-3 bg-muted/5">
+          <Search className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:scale-110" />
           <input
-            className="flex h-10 w-full rounded-md bg-transparent py-3 px-2 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-full rounded-md bg-transparent py-3 px-2 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus:ring-0 focus:shadow-lg transition-shadow duration-300"
             placeholder="Search artists..."
             onChange={(e) => searchArtists(e.target.value)}
             onFocus={() => setOpen(true)}
@@ -38,22 +44,36 @@ const ArtistSearch = () => {
           />
         </div>
         {open && artists.length > 0 && (
-          <div className="absolute mt-2 w-full rounded-md bg-white shadow-lg">
+          <motion.div
+            className="absolute mt-2 w-full rounded-md bg-white/95 backdrop-blur-sm shadow-lg border border-border/40 divide-y divide-border/40"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
             {artists.map((artist: any) => (
-              <div
+              <motion.div
                 key={artist._id}
-                className="flex items-center px-4 py-2 hover:bg-secondary/20 cursor-pointer"
+                className="flex items-center px-4 py-3 hover:bg-muted/10 cursor-pointer transition-colors duration-200"
+                whileHover={{ scale: 1.03, backgroundColor: "#f3f4f6" }}
                 onClick={() => {
                   window.location.href = `/artists/${artist._id}`;
                 }}
               >
-                <span>{artist.fullName}</span>
-              </div>
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                  <span className="text-sm font-medium text-primary">
+                    {artist.fullName.substring(0, 2).toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-medium">{artist.fullName}</span>
+                  <p className="text-sm text-muted-foreground">Artist</p>
+                </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </Command>
-    </div>
+    </motion.div>
   );
 };
 
@@ -91,9 +111,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-1">
-        <div className="flex h-16 justify-between items-center">
+    <motion.nav
+      initial={{ opacity: 0, y: -30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-shadow"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           {/* Left side - Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center space-x-2">
@@ -166,20 +191,25 @@ export default function Navbar() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center sm:hidden">
+          <motion.div
+            className="flex items-center sm:hidden"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 transition-colors duration-200"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <X className="block h-6 w-6" />
+                <X className="block h-6 w-6 transition-transform duration-200" />
               ) : (
-                <Menu className="block h-6 w-6" />
+                <Menu className="block h-6 w-6 transition-transform duration-200" />
               )}
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -242,6 +272,6 @@ export default function Navbar() {
           </div>
         </>
       )}
-    </nav>
+    </motion.nav>
   );
 }

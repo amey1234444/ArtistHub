@@ -1,3 +1,9 @@
+@import '../styles/enhanced-theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @keyframes expand {
   from {
     transform: scaleX(0);
@@ -5,4 +11,35 @@
   to {
     transform: scaleX(1);
   }
+}
+
+/* Enhanced Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Enhanced Focus Styles */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Enhanced Selection Styles */
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }

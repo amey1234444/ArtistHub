@@ -1,17 +1,6 @@
 {
-  "/profile/page": "app/profile/page.js",
-  "/jobs/page": "app/jobs/page.js",
-  "/jobs/[id]/page": "app/jobs/[id]/page.js",
-  "/api/auth/validate/route": "app/api/auth/validate/route.js",
-  "/api/requests/route": "app/api/requests/route.js",
-  "/api/payment/route": "app/api/payment/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
   "/page": "app/page.js",
   "/sign-in/page": "app/sign-in/page.js",
-  "/api/auth/route": "app/api/auth/route.js",
-  "/api/artists/route": "app/api/artists/route.js",
-  "/api/applications/manager/route": "app/api/applications/manager/route.js",
-  "/api/jobs/route": "app/api/jobs/route.js",
-  "/api/applications/user/route": "app/api/applications/user/route.js",
+  "/api/payment/process/route": "app/api/payment/process/route.js",
   "/dashboard/page": "app/dashboard/page.js"
 }
