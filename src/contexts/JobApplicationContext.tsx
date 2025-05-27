@@ -11,7 +11,7 @@ interface JobApplication {
 interface JobApplicationContextType {
   applications: JobApplication[];
   addApplication: (application: JobApplication) => void;
-  updateApplication: (jobId: string, status: string) => void;
+  updateApplication: (jobId: string, status: JobApplication['status']) => void;
   getApplicationByJobId: (jobId: string) => JobApplication | undefined;
 }
 
@@ -24,8 +24,8 @@ export function JobApplicationProvider({ children }: { children: ReactNode }) {
     setApplications(prev => [...prev, application]);
   };
 
-  const updateApplication = (jobId: string, status: string) => {
-    setApplications(prev => 
+  const updateApplication = (jobId: string, status: JobApplication['status']) => {
+    setApplications((prev: JobApplication[]) =>
       prev.map(app => 
         app.jobId === jobId ? { ...app, status } : app
       )
