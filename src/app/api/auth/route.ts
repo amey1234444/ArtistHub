@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import  connectDB  from '@/lib/db';
 import User from '@/models/User';
 import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
     const { action, email, password, fullName, role } = await req.json();
 
     if (action === 'login') {
-      const user = await User.findOne({email});
+      const user = await (User.findOne as any)({email});
       console.log("Inside api/auth/route to check it ", user);
       if (!user || !(await user.comparePassword(password))) {
         return NextResponse.json(
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'register') {
-      const existingUser = await User.findByEmail(email);
+      const existingUser = await (User.findOne as any)({email});
       console.log(existingUser , "Inside the /api/auth");
       if (existingUser) {
         return NextResponse.json(
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
         );
       }
      
-      const user = await User.create({
+      const user = await (User.create as any)({
         email,
         password,
         fullName,
@@ -151,8 +152,8 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const decoded = verify(token, JWT_SECRET) as { userId: string };
-    const user = await User.findById(decoded.userId).select('-password');
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    const user = await (User.findById as any) (decoded.userId).select('-password');
 
     if (!user) {
       return NextResponse.json(

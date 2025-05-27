@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const { email, password } = body;
 
     // Find user by email
-    const user = await User.findByEmail(email);
+    const user = await (User.findOne as any)({email});
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password' },

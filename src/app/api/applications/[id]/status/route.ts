@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
-import Application from '@/models/Application';
+import  Application   from '@/models/Application';
 
 export async function PATCH(
   request: Request,
@@ -10,7 +10,7 @@ export async function PATCH(
     const { status } = await request.json();
     await connectDB();
     
-    const application = await Application.findByIdAndUpdate(
+    const application = await (Application.findByIdAndUpdate as any)(
       params.id,
       { status },
       { new: true }

@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
       ? { managerId: decoded.userId }
       : { artistId: decoded.userId };
 
-    const requests = await Request.find(query)
+    const requests = await (Request.find as any)(query)
       .populate('artistId', 'fullName email')
       .populate('managerId', 'fullName email')
       .sort({ createdAt: -1 });
@@ -62,14 +62,14 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
 
-    const request = await Request.create({
+    const request = await (Request.create as any)({
       ...data,
       managerId: decoded.userId,
       status: 'PENDING',
       createdAt: new Date()
     });
 
-    const populatedRequest = await Request.findById(request._id)
+    const populatedRequest = await (Request.findById as any)(request._id)
       .populate('artistId', 'fullName email')
       .populate('managerId', 'fullName email');
 
