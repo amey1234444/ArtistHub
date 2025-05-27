@@ -9,6 +9,7 @@ export interface IUser {
   skills: string[];
   experience?: string;
   location?: string;
+  imageUrl?: string; // Add this line
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,6 +55,10 @@ const userSchema = new Schema<IUserDocument>({
     trim: true
   },
   location: {
+    type: String,
+    trim: true
+  },
+  imageUrl: {
     type: String,
     trim: true
   },

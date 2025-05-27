@@ -95,11 +95,11 @@ const Profile = () => {
             <div className="flex items-center">
               <div className="relative mr-4">
                 <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                  {user?.imageUrl ? (
+                  {/* {user?.imageUrl ? (
                     <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
-                    <Music className="h-10 w-10 text-primary" />
-                  )}
+                  )} */}
+                  <Music className="h-10 w-10 text-primary" />
                 </div>
                 <div className="absolute bottom-0 right-0 p-1 bg-white rounded-full border border-border">
                   <Camera className="h-4 w-4 text-muted-foreground" />
