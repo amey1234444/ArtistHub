@@ -58,7 +58,7 @@ export default function ArtistProfile() {
             </Avatar>
             <div>
               <CardTitle className="text-3xl">{artist?.fullName}</CardTitle>
-              <StarRating rating={artist?.averageRating || 0} />
+              {/* <StarRating rating={artist?.averageRating || 0} /> */}
             </div>
           </CardHeader>
         </Card>
@@ -112,7 +112,7 @@ export default function ArtistProfile() {
                               by {rating.manager.fullName}
                             </p>
                           </div>
-                          <StarRating rating={rating.rating} />
+                          {/* { <StarRating rating={rating.rating} /> } */}
                         </div>
                       </CardHeader>
                       <CardContent>
