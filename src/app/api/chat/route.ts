@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const decoded = verify(token, process.env.JWT_SECRET!) as { userId: string };
     await connectDB();
 
-    const user = await User.findById(decoded.userId);
+    const user = await (User.findById as any)(decoded.userId);
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid message format' }, { status: 400 });
     }
 
-    const requests = await Request.find({
+    const requests = await (Request.find as any)({
       $or: [
         { artistId: user._id },
         { managerId: user._id }

@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     ) as { userId: string };
 
     await connectDB();
-    const user = await User.findById(decoded.userId, { password: 0 });
+    const user = await (User.findById as any)(decoded.userId, { password: 0 });
 
     if (!user) {
       return NextResponse.json(

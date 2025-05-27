@@ -35,14 +35,14 @@ export async function POST(req: Request) {
     const { requestId ,managerId,artistId} = await req.json();
     console.log(requestId, managerId, artistId , "this is requestId ");
 
-    const job = await Job.findOne({manager : managerId});
+    const job = await (Job.findOne as any)({manager : managerId});
 
     if (!job) {
       return NextResponse.json({ error: 'Job not found' }, { status: 404 });
     }
 
     console.log(job,"this is inside Job");
-    const UPIDetails = await PaymentInfo.findOne({userId : artistId});
+    const UPIDetails = await (PaymentInfo.findOne as any)({userId : artistId});
 
     if (!UPIDetails) {
       return NextResponse.json({ error: 'UPI details not found' }, { status: 404 });
@@ -96,7 +96,7 @@ export async function PUT(req: Request) {
     const { notes } = payment;
 
     const successfulPayment = new SuccessfulPayment({
-      amount: payment.amount / 100, 
+      amount: (payment.amount as any) / 100, 
       payer: notes.payerId,
       receiver: notes.receiverId,
       jobId: notes.jobId,

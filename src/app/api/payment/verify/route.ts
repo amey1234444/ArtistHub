@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const client = await connectDB();
 
     // Update the request status and payment status in the database
-    const updatedRequest = await Request.findByIdAndUpdate(
+    const updatedRequest = await (Request.findByIdAndUpdate as any)(
       requestId,
       { 
         paymentStatus: status,

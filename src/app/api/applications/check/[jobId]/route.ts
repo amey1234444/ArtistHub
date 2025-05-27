@@ -20,7 +20,7 @@ export async function GET(
     const { user } = await validateResponse.json();
     await connectDB();
 
-    const application = await Application.findOne({
+    const application = await (Application.findOne as any)({
       job: params.jobId,
       applicant: user.id
     });

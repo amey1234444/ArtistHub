@@ -17,7 +17,7 @@ export async function PUT(req: NextRequest) {
     const decoded = verify(token, JWT_SECRET) as { userId: string };
     const updateData = await req.json();
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await (User.findByIdAndUpdate as any)(
       decoded.userId,
       { $set: updateData },
       { new: true, select: '-password' }

@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     await connectDB();
-    const job = await Job.findById(params.id).populate('manager', 'fullName email');
+    const job = await (Job.findById as any)(params.id).populate('manager', 'fullName email');
 
     if (!job) {
       return NextResponse.json(

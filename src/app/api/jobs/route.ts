@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const job = await Job.create({
+    const job = await (Job.create as any)({
       ...jobData,
       manager: decoded.userId,
       status: 'open',
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const jobs = await Job.find({ status: 'open' })
+     const jobs = await (Job.find as any)({ status: 'open' })
       .sort({ createdAt: -1 })
       .limit(10)
       .populate('manager', 'fullName email');

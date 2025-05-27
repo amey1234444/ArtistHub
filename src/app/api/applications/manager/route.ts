@@ -18,8 +18,8 @@ export async function GET(req: NextRequest) {
     const { user } = await validateResponse.json();
     await connectDB();
 
-    const jobs = await Job.find({ manager: user.id });
-    const applications = await Application.find({ job: { $in: jobs.map(job => job._id) } })
+    const jobs = await (Job.find as any)({ manager: user.id });
+    const applications = await (Application.find as any)({ job: { $in: jobs.map(job => job._id) } })
       .populate('job')
       .populate('applicant', 'fullName email portfolio')
       .sort({ createdAt: -1 });

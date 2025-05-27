@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     console.log(fullName,email,password,role);
     // Check if user already exists
 
-    const existingUser = await User.findOne({email:email.toLowerCase()});
+    const existingUser = await (User.findOne as any)({email:email.toLowerCase()});
     console.log("This is inside register route", existingUser);
 
     if (existingUser) {
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     // Create new user
-    const user = await User.create<IUserDocument>({
+    const user = await (User.create<IUserDocument> as any)({
       fullName,
       email,
       password, // Password will be hashed by the pre-save hook

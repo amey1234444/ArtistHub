@@ -21,14 +21,14 @@ export async function POST(req: NextRequest) {
     
     const applicationData = await req.json();
     
-    const application = await Application.create({
+    const application = await (Application.create as any)({
       ...applicationData,
       applicant: user.id,
       status: 'pending'
     });
 
     // Update the job's applications array
-    await Job.findByIdAndUpdate(
+    await (Job.findByIdAndUpdate as any) (
       applicationData.job,
       { $push: { applications: application._id } }
     );

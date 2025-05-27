@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     const decoded = await verifyToken(req);
     await connectDB();
 
-    const paymentInfo = await PaymentInfo.findOne({ userId: decoded.userId });
+    const paymentInfo = await (PaymentInfo.findOne as any)({ userId: decoded.userId });
     if (!paymentInfo) {
       return NextResponse.json({ hasUpiId: false });
     }
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     // Check if user is an artist
-    const user = await User.findById(decoded.userId);
+    const user = await (User.findById as any)(decoded.userId);
     if (!user || user.role !== 'artist') {
       return NextResponse.json(
         { error: 'Only artists can set UPI payment information' },
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
     //   );
     // }
 
-    const paymentInfo = await PaymentInfo.findOneAndUpdate(
+    const paymentInfo = await (PaymentInfo.findOneAndUpdate as any)(
       { userId: decoded.userId },
       { upiId },
       { new: true, upsert: true }

@@ -28,7 +28,7 @@ export async function PATCH(
 
     const data = await req.json();
     
-    const request = await Request.findOneAndUpdate(
+    const request = await (Request.findOneAndUpdate as any)(
       { _id: params.id, artistId: decoded.userId },
       { status: data.status },
       { new: true }

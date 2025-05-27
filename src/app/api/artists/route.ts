@@ -5,7 +5,7 @@ import User from '@/models/User';
 export async function GET() {
   try {
     await connectDB();
-    const artists = await User.find({ role: 'artist' })
+    const artists = await (User.find as any)({ role: 'artist' })
       .select('fullName email _id')
       .sort({ fullName: 1 });
 

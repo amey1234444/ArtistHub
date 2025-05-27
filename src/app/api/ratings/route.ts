@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
     await connectDB();
-    const rating = await Rating.create(data);
+    const rating = await (Rating.create as any)(data);
     return NextResponse.json(rating);
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   try {
     const artistId = req.nextUrl.searchParams.get('artistId');
     await connectDB();
-    const ratings = await Rating.find({ artist: artistId })
+    const ratings = await (Rating.find as any)({ artist: artistId })
       .populate('manager', 'fullName')
       .populate('job', 'title')
       .sort({ createdAt: -1 });

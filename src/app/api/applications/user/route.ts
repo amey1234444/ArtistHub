@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const { user } = await validateResponse.json();
     await connectDB();
 
-    const applications = await Application.find({ applicant: user.id })
+    const applications = await (Application.find as any)({ applicant: user.id })
       .populate('job')
       .populate('applicant', 'fullName email portfolio')
       .sort({ createdAt: -1 });
