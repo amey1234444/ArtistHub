@@ -3,21 +3,32 @@ import connectDB from '@/lib/db';
 import Application from '@/models/Application';
 
 export async function PATCH(
-  req: NextRequest,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
-    const { status } = await req.json();
+    const { status } = await request.json();
     await connectDB();
     
     const application = await Application.findByIdAndUpdate(
       params.id,
       { status },
       { new: true }
-    ).populate('job applicant');
+    ).exec(); // Add .exec() to properly handle the mongoose promise
 
-    return NextResponse.json(application);
+    if (!application) {
+      return Response.json(
+        { message: "Application not found" },
+        { status: 404 }
+      );
+    }
+
+    return Response.json(application);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error(error);
+    return Response.json(
+      { message: "Error updating application status" },
+      { status: 500 }
+    );
   }
 }

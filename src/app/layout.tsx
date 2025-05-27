@@ -4,7 +4,8 @@ import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { JobApplicationProvider } from '@/contexts/JobApplicationContext';
 import '../index.css';
-import ChatBot from '@/components/ChatBot';
+// import ChatBot from '@/components/ChatBot';
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Navbar />
               {children}
               <Toaster />
-              <ChatBot />
+              {/* <ChatBot /> */}
             </ThemeProvider>
           </JobApplicationProvider>
         </AuthProvider>

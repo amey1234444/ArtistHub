@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    serverActions: true,
+  images: {
+    domains: ['res.cloudinary.com'],
   },
-  webpack: (config) => {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
-    return config;
-  },
-};
+  // Remove the experimental.serverActions configuration as it's now enabled by default
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
