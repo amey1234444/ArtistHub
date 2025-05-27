@@ -1,9 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['res.cloudinary.com'],
+  reactStrictMode: true,
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  experimental: {
+    appDir: true
   },
-  // Remove the experimental.serverActions configuration as it's now enabled by default
-}
+  // Add this if you're using the Pages Router
+  pages: {
+    excludeDefaultMomentLocales: true
+  },
+  // Ensure images from any domain can be used
+  images: {
+    domains: ['*']
+  }
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

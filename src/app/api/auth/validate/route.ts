@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 import connectDB from '@/lib/db';
-import User, { IUserDocument } from '@/models/User';
+import User from '@/models/User';
+
+export const dynamic = 'force-dynamic'; // Add this line to explicitly mark as dynamic route
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,14 +16,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Verify JWT token
     const decoded = verify(
       token,
       process.env.JWT_SECRET || 'your-secret-key'
     ) as { userId: string };
 
     await connectDB();
-    const user = await (User.findById as any)(decoded.userId, { password: 0 });
+    const user = await (User.findById as any)(decoded.userId).select('-password');
 
     if (!user) {
       return NextResponse.json(
