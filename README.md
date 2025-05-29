@@ -24,7 +24,7 @@
 ### 🖼️ Screenshot 8
 ![Screenshot 8](./Screenshot%202025-05-28%20002819.png)
 
-### 🖼️ Screenshot 9
+### 🖼️ Screenshot 9 Updated UI for Browse Jobs 
 ![Screenshot 9](./Screenshot%202025-05-29%20112656.png)
 
 
