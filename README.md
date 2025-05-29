@@ -1,3 +1,31 @@
+## 📸 Screenshots
+
+### 🖼️ Screenshot 1
+![Screenshot 1](./Screenshot%202025-05-27%20223918.png)
+
+### 🖼️ Screenshot 2
+![Screenshot 2](./Screenshot%202025-05-27%20223935.png)
+
+### 🖼️ Screenshot 3
+![Screenshot 3](./Screenshot%202025-05-28%20000238.png)
+
+### 🖼️ Screenshot 4
+![Screenshot 4](./Screenshot%202025-05-28%20000247.png)
+
+### 🖼️ Screenshot 5
+![Screenshot 5](./Screenshot%202025-05-28%20000257.png)
+
+### 🖼️ Screenshot 6
+![Screenshot 6](./Screenshot%202025-05-28%20000303.png)
+
+### 🖼️ Screenshot 7
+![Screenshot 7](./Screenshot%202025-05-28%20002806.png)
+
+### 🖼️ Screenshot 8
+![Screenshot 8](./Screenshot%202025-05-28%20002819.png)
+
+### 🖼️ Screenshot 9
+![Screenshot 9](./Screenshot%202025-05-29%20112656.png)
 
 
 Follow these steps:
